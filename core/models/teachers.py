@@ -11,3 +11,16 @@ class Teacher(db.Model):
 
     def __repr__(self):
         return '<Teacher %r>' % self.id
+
+    # additions start here, copied from core/models/assignments.py
+
+    @classmethod
+    def filter(cls, *criterion):
+        db_query = db.session.query(cls)
+        return db_query.filter(*criterion)
+    
+    @classmethod
+    def get_all(cls, principal_id):
+        return cls.filter(cls.user_id == principal_id).all()
+    
+    # additions end here

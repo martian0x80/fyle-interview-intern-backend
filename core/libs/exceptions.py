@@ -10,3 +10,17 @@ class FyleError(Exception):
         res = dict()
         res['message'] = self.message
         return res
+
+# Additions start here
+
+class FyleErrorExtended(FyleError):
+    def __init__(self, message, status_code=400, error='FyleError'):
+        FyleError.__init__(self, status_code, message)
+        self.error = error
+
+    def to_dict(self):
+        res = FyleError.to_dict(self)
+        res['data'] = self.data
+        return res
+    
+# Additions end here

@@ -1,8 +1,9 @@
 from flask import Blueprint
 from core import db
 from core.apis import decorators
-from core.apis.responses import APIResponse
-from core.models.assignments import Assignment
+from core.apis.responses import APIResponse, APIError
+from core.models.assignments import Assignment, AssignmentStateEnum
+from core.libs.exceptions import FyleErrorExtended
 
 from .schema import AssignmentSchema, AssignmentSubmitSchema
 student_assignments_resources = Blueprint('student_assignments_resources', __name__)
@@ -25,6 +26,13 @@ def upsert_assignment(p, incoming_payload):
     assignment = AssignmentSchema().load(incoming_payload)
     assignment.student_id = p.student_id
 
+    # additions start here
+
+    if assignment.content is None:
+        return APIError.respond(FyleErrorExtended(status_code=400, error='FyleError', message='content cannot be null'))
+
+    # additions end here
+
     upserted_assignment = Assignment.upsert(assignment)
     db.session.commit()
     upserted_assignment_dump = AssignmentSchema().dump(upserted_assignment)
@@ -37,6 +45,15 @@ def upsert_assignment(p, incoming_payload):
 def submit_assignment(p, incoming_payload):
     """Submit an assignment"""
     submit_assignment_payload = AssignmentSubmitSchema().load(incoming_payload)
+
+    # additions start here
+
+    # check if assignment is in draft state
+    GetAssignment = Assignment.get_by_id(submit_assignment_payload.id)
+    if GetAssignment.state != AssignmentStateEnum.DRAFT: # if assignment is not in draft state, it is either submitted or graded
+        return APIError.respond(FyleErrorExtended(status_code=400, error='FyleError', message='only a draft assignment can be submitted'))
+
+    # additions end here
 
     submitted_assignment = Assignment.submit(
         _id=submit_assignment_payload.id,
