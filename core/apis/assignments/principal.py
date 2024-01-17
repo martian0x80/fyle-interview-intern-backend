@@ -6,6 +6,7 @@ from core.models.assignments import Assignment, AssignmentStateEnum, GradeEnum
 from core.libs.exceptions import FyleErrorExtended
 
 from .schema import AssignmentSchema, AssignmentGradeSchema
+
 principal_assignments_resources = Blueprint('principal_assignments_resources', __name__)
 
 

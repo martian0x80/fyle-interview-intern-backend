@@ -8,8 +8,6 @@ from core.libs.helpers import GeneralObject
 class TeacherSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Teacher
-        load_instance = True
-        include_relationships = True
         unknown = EXCLUDE
     
     id = auto_field()
@@ -18,6 +16,7 @@ class TeacherSchema(SQLAlchemyAutoSchema):
     updated_at = auto_field()
 
     @post_load
-    def make_object(self, data, **kwargs):
-        return Teacher(**data)
+    def initiate_class(self, data_dict, many, partial):
+        # pylint: disable=unused-argument,no-self-use
+        return Teacher(**data_dict)
 

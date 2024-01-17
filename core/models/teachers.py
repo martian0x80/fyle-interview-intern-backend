@@ -20,7 +20,7 @@ class Teacher(db.Model):
         return db_query.filter(*criterion)
     
     @classmethod
-    def get_all(cls, principal_id):
-        return cls.filter(cls.user_id == principal_id).all()
+    def get_all(cls, _principal_id):
+        return cls.filter().all()
     
     # additions end here

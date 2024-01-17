@@ -12,7 +12,7 @@ class FyleError(Exception):
         return res
 
 # Additions start here
-
+# sorry for not raising exceptions like intended for the handler in server.py
 class FyleErrorExtended(FyleError):
     def __init__(self, message, status_code=400, error='FyleError'):
         FyleError.__init__(self, status_code, message)
