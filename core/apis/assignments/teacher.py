@@ -39,7 +39,7 @@ def grade_assignment(p, incoming_payload):
         return APIError.respond(FyleErrorExtended(status_code=400, error='ValidationError', message='Invalid grade'))
 
     if assignment.state != AssignmentStateEnum.SUBMITTED:
-        return APIError.respond(FyleErrorExtended(status_code=400, error='FyleError', message='Assignment not graded'))
+        return APIError.respond(FyleErrorExtended(status_code=400, error='FyleError', message='Assignment not gradable'))
 
     grade_assignment_payload = AssignmentGradeSchema().load(incoming_payload)
 

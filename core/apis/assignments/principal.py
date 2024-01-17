@@ -2,7 +2,7 @@ from flask import Blueprint
 from core import db
 from core.apis import decorators
 from core.apis.responses import APIResponse, APIError
-from core.models.assignments import Assignment, AssignmentStateEnum, GradeEnum
+from core.models.assignments import Assignment, AssignmentStateEnum
 from core.libs.exceptions import FyleErrorExtended
 
 from .schema import AssignmentSchema, AssignmentGradeSchema

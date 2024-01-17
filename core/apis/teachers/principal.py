@@ -1,8 +1,7 @@
 from core.apis import decorators
 from flask import Blueprint
-from core.apis.responses import APIResponse, APIError
+from core.apis.responses import APIResponse
 from core.models.teachers import Teacher
-from core.libs.exceptions import FyleErrorExtended
 from .schema import TeacherSchema
 
 principal_teachers_resources = Blueprint('principal_teachers_resources', __name__)
